@@ -33,7 +33,6 @@ cc_library_headers {
         "//apex_available:platform",
         "//apex_available:anyapex",
     ],
-    min_sdk_version: "29",
     native_bridge_supported: true,
     export_include_dirs: ["include"],
     target: {
@@ -50,9 +49,13 @@ cc_library_headers {
 }
 
 // Socket specific parts of libcutils that are safe to statically link into an APEX.
-cc_library {
+cc_library_static {
     name: "libcutils_sockets",
     vendor_available: true,
+    vndk: {
+        enabled: true,
+        support_system_process: true,
+    },
     recovery_available: true,
     host_supported: true,
     native_bridge_supported: true,
@@ -60,11 +63,9 @@ cc_library {
         "//apex_available:platform",
         "//apex_available:anyapex",
     ],
-    min_sdk_version: "29",
 
     export_include_dirs: ["include"],
 
-    shared_libs: ["liblog"],
     srcs: ["sockets.cpp"],
     target: {
         linux_bionic: {
@@ -144,7 +145,6 @@ cc_library {
         "//apex_available:platform",
         "//apex_available:anyapex",
     ],
-    min_sdk_version: "29",
     native_bridge_supported: true,
     srcs: [
         "config_utils.cpp",
@@ -152,7 +152,6 @@ cc_library {
         "iosched_policy.cpp",
         "load_file.cpp",
         "native_handle.cpp",
-        "properties.cpp",
         "record_stream.cpp",
         "strlcpy.c",
         "threads.cpp",
@@ -188,6 +187,7 @@ cc_library {
                 "fs_config.cpp",
                 "klog.cpp",
                 "partition_utils.cpp",
+                "properties.cpp",
                 "qtaguid.cpp",
                 "trace-dev.cpp",
                 "uevent.cpp",
@@ -268,7 +268,6 @@ cc_defaults {
     name: "libcutils_test_default",
     srcs: [
         "native_handle_test.cpp",
-        "properties_test.cpp",
         "sockets_test.cpp",
     ],
 
@@ -281,6 +280,7 @@ cc_defaults {
                 "fs_config_test.cpp",
                 "memset_test.cpp",
                 "multiuser_test.cpp",
+                "properties_test.cpp",
                 "sched_policy_test.cpp",
                 "str_parms_test.cpp",
                 "trace-dev_test.cpp",
@@ -349,7 +349,7 @@ cc_test {
 
 cc_test {
     name: "KernelLibcutilsTest",
-    test_suites: ["general-tests", "vts"],
+    test_suites: ["general-tests", "vts-core"],
     defaults: ["libcutils_test_static_defaults"],
     test_config: "KernelLibcutilsTest.xml",
 }
