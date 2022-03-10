@@ -3,10 +3,5 @@
     {
       "name": "libcutils_test"
     }
-  ],
-  "hwasan-postsubmit": [
-    {
-      "name": "libcutils_test"
-    }
   ]
 }
