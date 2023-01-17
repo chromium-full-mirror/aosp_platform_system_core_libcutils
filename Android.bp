@@ -286,14 +286,11 @@ cc_defaults {
     ],
 }
 
-always_static_test_libraries = [
-    "libjsoncpp",
-]
-
 test_libraries = [
     "libcutils",
     "liblog",
     "libbase",
+    "libjsoncpp",
     "libprocessgroup",
     "libcgrouprc",
 ]
@@ -304,7 +301,6 @@ cc_test {
     defaults: ["libcutils_test_default"],
     host_supported: true,
     shared_libs: test_libraries,
-    static_libs: always_static_test_libraries,
     require_root: true,
 }
 
@@ -314,7 +310,7 @@ cc_defaults {
     static_libs: [
         "libc",
         "libcgrouprc_format",
-    ] + test_libraries + always_static_test_libraries,
+    ] + test_libraries,
     stl: "libc++_static",
     require_root: true,
 
