@@ -129,7 +129,10 @@ libcutils_nonwindows_sources = [
 cc_library {
     name: "libcutils",
     defaults: ["libcutils_defaults"],
-    double_loadable: true,
+    vndk: {
+        enabled: true,
+        support_system_process: true,
+    },
     srcs: [
         "config_utils.cpp",
         "iosched_policy.cpp",
